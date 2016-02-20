@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity uartTx is
   port ( clr       : in  std_logic;                    -- global reset input
@@ -32,7 +32,7 @@ architecture Behavioral of uartTx is
         count16 <= (others => '0');
       elsif (rising_edge(clk)) then
         if ((iTxBusy = '1') and (ce16 = '1')) then
-          count16 <= count16 + 1;
+          count16 <= std_logic_vector(unsigned(count16) + 1);
         elsif (iTxBusy = '0') then
           count16 <= (others => '0');
         end if;
@@ -58,7 +58,7 @@ architecture Behavioral of uartTx is
         bitCount <= (others => '0');
       elsif (rising_edge(clk)) then
         if ((iTxBusy = '1') and (ce1 = '1')) then
-          bitCount <= bitCount + 1;
+          bitCount <= std_logic_vector(unsigned(bitCount) + 1);
         elsif (iTxBusy = '0') then
           bitCount <= (others => '0');
         end if;

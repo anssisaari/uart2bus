@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.ALL;
-use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity regFileModel is
   port ( -- global signals
@@ -33,7 +33,7 @@ architecture Behavioral of regFileModel is
         end loop;
       elsif (rising_edge(clk)) then
         if (intWrite = '1') then
-          regFile(conv_integer(intAddress)) <= intWrData;
+          regFile(to_integer(unsigned(intAddress))) <= intWrData;
         end if;
       end if;
     end process;
@@ -44,7 +44,7 @@ architecture Behavioral of regFileModel is
         intRdData <= (others => '0');
       elsif (rising_edge(clk)) then
         if (intRead = '1') then
-          intRdData <= regFile(conv_integer(intAddress));
+          intRdData <= regFile(to_integer(unsigned(intAddress)));
         end if;
       end if;
     end process;

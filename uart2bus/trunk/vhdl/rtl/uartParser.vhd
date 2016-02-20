@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.ALL;
-use ieee.std_logic_unsigned.ALL;
+use ieee.numeric_std.ALL;
 
 entity uartParser is
   generic ( -- parameters 
@@ -351,7 +351,7 @@ architecture Behavioral of uartParser is
         elsif (((mainSm = mainBinData) and (binWriteOp = '1') and (newRxData = '1')) or ((binReadOp = '1') and (txEndP = '1'))) then
           -- byte counter is updated on every new data received in write operations and for every 
           -- byte transmitted for read operations.
-          binByteCount <= binByteCount - 1;
+          binByteCount <= std_logic_vector(unsigned(binByteCount) - 1);
         end if;
       end if;
     end process;
@@ -411,7 +411,7 @@ architecture Behavioral of uartParser is
           iIntAddress <= addrParam(AW - 1 downto 0);
         elsif ((addrAutoInc = '1') and (((binReadOp = '1') and (txEndP = '1') and (binLastByte = '0')) or ((binWriteOp = '1') and (iIntWrite = '1')))) then
           -- address is incremented on every read or write if enabled
-          iIntAddress <= iIntAddress + 1;
+          iIntAddress <= std_logic_vector(unsigned(iIntAddress) + 1);
         end if;
       end if;
     end process;

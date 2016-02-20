@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.ALL;
-use ieee.std_logic_unsigned.ALL;
+use ieee.numeric_std.ALL;
 
 entity uartRx is
   port ( clr       : in  std_logic;                    -- global reset input
@@ -45,7 +45,7 @@ architecture Behavioral of uartRx is
       elsif (rising_edge(clk)) then
         if (ce16 = '1') then
           if ((rxBusy = '1') or (inSync(1) = '0')) then
-            count16 <= count16 + 1;
+            count16 <= std_logic_vector(unsigned(count16) + 1);
           else
             count16 <= (others => '0');
           end if;
@@ -74,7 +74,7 @@ architecture Behavioral of uartRx is
         if (rxBusy = '0') then
           bitCount <= (others => '0');
         elsif ((rxBusy = '1') and (ce1Mid = '1')) then
-          bitCount <= bitCount + 1;
+          bitCount <= std_logic_vector(unsigned(bitCount) + 1);
         end if;
       end if;
     end process;
