@@ -11,7 +11,7 @@
 -----------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity baudGen is
   port ( clr       : in  std_logic;                     -- global reset input
@@ -37,10 +37,10 @@ architecture Behavioral of baudGen is
         ce16 <= '0';
       elsif (rising_edge(clk)) then
         if (counter >= baudLimit) then
-          counter <= counter - baudLimit;
+          counter <= std_logic_vector(unsigned(counter) - unsigned(baudLimit));
           ce16 <= '1';
         else
-          counter <= counter + baudFreq;
+          counter <= std_logic_vector(unsigned(counter) + unsigned(baudFreq));
           ce16 <= '0';
         end if;
       end if;
